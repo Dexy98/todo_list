@@ -2,7 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
 
-    "types": ["node", "express", "cors"]
+    "types": ["node", "express", "mongoose"]
   }
   // ... altre configurazioni ...
 }
