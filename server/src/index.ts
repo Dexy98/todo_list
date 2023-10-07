@@ -45,7 +45,7 @@ app.delete(
   }
 );
 
-app.use(express.static(path.join(basePath, "/client/dist")));
+app.use(express.static(path.join(basePath, "client/dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(basePath, "client", "dist", "index.html"));
