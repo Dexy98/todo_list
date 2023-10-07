@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import Notes from "./models/Notes";
+import Notes from "./models/Notes.js";
 //for deploy
 import path from "path";
 
