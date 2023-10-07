@@ -10,7 +10,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-const basePath = path.resolve();
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -45,10 +45,10 @@ app.delete(
   }
 );
 
-app.use(express.static(path.join(basePath, "client/dist")));
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(basePath, "client", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 //connessione al db
