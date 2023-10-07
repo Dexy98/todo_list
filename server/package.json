@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/index.ts\"",
-    "build": "npm install --prefix client && npm run build --prefix client"
+    "build": "npm --prefix client install && npm --prefix client run build"
   },
   "keywords": [],
   "author": "",
