@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -20,7 +20,7 @@ app.use(express.json());
 
 //metodi crud
 // invia nota al database
-app.post("/notes", async (req: Request, res: Response) => {
+app.post("/notes", async (req: express.Request, res: express.Response) => {
   const newNotes = new Notes({
     title: req.body.title,
     description: req.body.description || "Nessuna descrizione",
@@ -30,17 +30,20 @@ app.post("/notes", async (req: Request, res: Response) => {
   res.json(createNotes);
 });
 //prendi tutte le notes
-app.get("/notes", async (req: Request, res: Response) => {
+app.get("/notes", async (req: express.Request, res: express.Response) => {
   const notes = await Notes.find();
   res.json(notes);
 });
 //delete
-app.delete("/notes/:ID", async (req: Request, res: Response) => {
-  //prendi id
-  const ID = req.params.ID;
-  const note = await Notes.findByIdAndDelete(ID);
-  res.json(note);
-});
+app.delete(
+  "/notes/:ID",
+  async (req: express.Request, res: express.Response) => {
+    //prendi id
+    const ID = req.params.ID;
+    const note = await Notes.findByIdAndDelete(ID);
+    res.json(note);
+  }
+);
 
 app.use(express.static(path.join(basePath, "/client/dist")));
 
