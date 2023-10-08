@@ -27,7 +27,7 @@ function App() {
         </Routes>
         <Link to={`/add`} >
           <button
-            className="fixed bottom-4 right-4 w-28 hover:scale-125 transition-all ">
+            className="fixed bottom-4 right-4 w-28 hover:scale-125 transition-all z-50 ">
             <Player
               hover
               src={AddButton}

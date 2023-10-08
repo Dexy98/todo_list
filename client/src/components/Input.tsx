@@ -1,8 +1,6 @@
 import { useState } from "react"
 import { useCreateNoteMutation } from "../features/featuresApi"
-import { useNavigate } from "react-router-dom"
 const Input = () => {
-    const navigate = useNavigate()
     const [createNote] = useCreateNoteMutation()
     const [formData, setFormData] = useState({
         title: '',
@@ -14,7 +12,6 @@ const Input = () => {
             title: formData.title,
             description: formData.description
         });
-        navigate("/")
     }
     return (
 
