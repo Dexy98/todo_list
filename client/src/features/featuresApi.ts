@@ -15,6 +15,18 @@ export const Notes = createApi({
       }),
       invalidatesTags: ["Notes"],
     }),
+    getNoteById: builder.query<TNotes, string>({
+      query: (id) => `/notes/${id}`,
+      providesTags: ["Notes"],
+    }),
+    editNote: builder.mutation<TNotes, Partial<TNotes>>({
+      query: ({ _id, title, description }) => ({
+        url: `/notes/${_id}`,
+        method: "PUT",
+        body: { title, description },
+      }),
+      invalidatesTags: ["Notes"],
+    }),
 
     getNotes: builder.query<TNotes[], void>({
       query: () => `notes`,
@@ -35,4 +47,6 @@ export const {
   useGetNotesQuery,
   useCreateNoteMutation,
   useDeleteNotesMutation,
+  useGetNoteByIdQuery,
+  useEditNoteMutation,
 } = Notes;

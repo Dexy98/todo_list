@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { Player } from '@lottiefiles/react-lottie-player';
 import AddButton from "./assets/AddButton.json"
+import Modifica from "./components/Modifica";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             </>}
           />
           <Route path="/add" element={<Input />} />
+          <Route path="/modifica/:id" element={<Modifica />} />
         </Routes>
         <Link to={`/add`} >
           <button

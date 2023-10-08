@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useDeleteNotesMutation, useGetNotesQuery } from "../features/featuresApi";
 import { TNotes } from "../vite-env";
 
@@ -6,9 +7,11 @@ import ReactMarkdown from 'react-markdown';
 
 
 const ListaNotes = () => {
+
     const { data, isLoading } = useGetNotesQuery();
-    console.log(data, isLoading);
     const [deleteNote] = useDeleteNotesMutation();
+
+
 
     const handleDeleteNote = async (id: string) => {
         try {
@@ -30,13 +33,17 @@ const ListaNotes = () => {
                         <ReactMarkdown>{note.description}</ReactMarkdown>
                         <div className="flex gap-2">
                             <button onClick={() => handleDeleteNote(note._id)} className="btn btn-outline btn-error mt-6">Elimina</button>
-                            <button className="btn btn-outline btn-warning mt-6">Modifica</button>
+                            <Link to={`/modifica/${note._id}`} >
+                                <button type="button" className="btn btn-outline btn-warning mt-6">Modifica</button>
+                            </Link>
+
                         </div>
                     </div>
                 </div>
-            )}
+            )
+            }
 
-        </div>
+        </div >
     )
 }
 
