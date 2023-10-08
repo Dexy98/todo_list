@@ -28,6 +28,21 @@ app.get("/notes", async (req, res) => {
     const notes = await Notes.find();
     res.json(notes);
 });
+// Modifica una nota esistente
+app.put("/notes/:ID", async (req, res) => {
+    const ID = req.params.ID;
+    const { title, description } = req.body;
+    try {
+        const updatedNote = await Notes.findByIdAndUpdate(ID, {
+            title,
+            description: description || "Nessuna descrizione",
+        }, { new: true });
+        res.json(updatedNote);
+    }
+    catch (error) {
+        res.status(500).json({ error: "Errore durante la modifica della nota" });
+    }
+});
 //delete
 app.delete("/notes/:ID", async (req, res) => {
     //prendi id
@@ -35,7 +50,7 @@ app.delete("/notes/:ID", async (req, res) => {
     const note = await Notes.findByIdAndDelete(ID);
     res.json(note);
 });
-app.use(express.static(path.join(basePath, "/client/dist")));
+app.use(express.static(path.join(basePath, "client/dist")));
 app.get("*", (req, res) => {
     res.sendFile(path.join(basePath, "client", "dist", "index.html"));
 });

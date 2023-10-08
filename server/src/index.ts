@@ -10,7 +10,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-const __dirname = path.resolve();
+const basePath = path.resolve();
 
 const app = express();
 
@@ -34,6 +34,27 @@ app.get("/notes", async (req: express.Request, res: express.Response) => {
   const notes = await Notes.find();
   res.json(notes);
 });
+// Modifica una nota esistente
+app.put("/notes/:ID", async (req: express.Request, res: express.Response) => {
+  const ID = req.params.ID;
+  const { title, description } = req.body;
+
+  try {
+    const updatedNote = await Notes.findByIdAndUpdate(
+      ID,
+      {
+        title,
+        description: description || "Nessuna descrizione",
+      },
+      { new: true }
+    );
+
+    res.json(updatedNote);
+  } catch (error) {
+    res.status(500).json({ error: "Errore durante la modifica della nota" });
+  }
+});
+
 //delete
 app.delete(
   "/notes/:ID",
@@ -45,10 +66,10 @@ app.delete(
   }
 );
 
-app.use(express.static(path.join(__dirname, "client/dist")));
+app.use(express.static(path.join(basePath, "client/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.join(basePath, "client", "dist", "index.html"));
 });
 
 //connessione al db
