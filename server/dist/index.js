@@ -28,6 +28,20 @@ app.get("/notes", async (req, res) => {
     const notes = await Notes.find();
     res.json(notes);
 });
+// Recupera una nota basata sull'ID
+app.get("/notes/:ID", async (req, res) => {
+    const ID = req.params.ID;
+    try {
+        const note = await Notes.findById(ID);
+        if (!note) {
+            return res.status(404).json({ error: "Nota non trovata" });
+        }
+        res.json(note);
+    }
+    catch (error) {
+        res.status(500).json({ error: "Errore durante il recupero della nota" });
+    }
+});
 // Modifica una nota esistente
 app.put("/notes/:ID", async (req, res) => {
     const ID = req.params.ID;

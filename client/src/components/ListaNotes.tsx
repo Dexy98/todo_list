@@ -28,7 +28,10 @@ const ListaNotes = () => {
                     </div>
                     <div className="collapse-content">
                         <ReactMarkdown>{note.description}</ReactMarkdown>
-                        <button onClick={() => handleDeleteNote(note._id)} className="btn btn-outline btn-error mt-6">Elimina</button>
+                        <div className="flex gap-2">
+                            <button onClick={() => handleDeleteNote(note._id)} className="btn btn-outline btn-error mt-6">Elimina</button>
+                            <button className="btn btn-outline btn-warning mt-6">Modifica</button>
+                        </div>
                     </div>
                 </div>
             )}
