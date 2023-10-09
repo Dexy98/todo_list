@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import notesRoutes from "./routes/notesRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import usersRoutes from "./routes/usersRoutes.js";
 //for deploy
 import path from "path";
 
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/notes", notesRoutes);
 
 // Usa le rotte degli utenti
-app.use("/users", userRoutes);
+app.use("/users", usersRoutes);
 
 //connessione al db
 mongoose.connect(process.env.MONGO_URL!).then(() => {
