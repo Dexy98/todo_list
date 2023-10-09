@@ -1,17 +1,21 @@
 import { useState } from "react"
 import { useCreateNoteMutation } from "../features/featuresApi"
+import { useNavigate } from "react-router-dom";
 const Input = () => {
+    const navigate = useNavigate();
     const [createNote] = useCreateNoteMutation()
     const [formData, setFormData] = useState({
         title: '',
         description: ''
     });
-    const handlerSubmit = async () => {
+    const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         await createNote({
             _id: "123456",
             title: formData.title,
             description: formData.description
         });
+        navigate("/");
     }
     return (
 
@@ -19,7 +23,7 @@ const Input = () => {
             <div className="hero-content text-center">
                 <div className="max-w-md">
                     <h1 className="text-5xl font-bold">Aggiungi la tua Nota</h1>
-                    <form onSubmit={() => handlerSubmit()}>
+                    <form onSubmit={handlerSubmit}>
                         <div className="max-w-md flex flex-col gap-2 items-center mt-10">
                             <label >Titolo</label>
                             <input

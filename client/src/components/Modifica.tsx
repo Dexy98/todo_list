@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useEditNoteMutation, useGetNoteByIdQuery } from "../features/featuresApi"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 const Modifica = () => {
     const { id } = useParams()!;
-
+    const navigate = useNavigate();
     const [editNote] = useEditNoteMutation()
     const { data: noteData } = useGetNoteByIdQuery(id!);
 
@@ -13,8 +13,17 @@ const Modifica = () => {
         description: noteData?.description,
     });
 
+    useEffect(() => {
+        if (noteData) {
+            setFormData({
+                title: noteData.title || '',
+                description: noteData.description || '',
+            });
+        }
+    }, [noteData]);
 
-    const handlerSubmit = async () => {
+    const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         try {
             const response = await editNote({
                 _id: id!,
@@ -23,6 +32,7 @@ const Modifica = () => {
             });
 
             console.log('Nota modificata con successo:', response);
+            navigate("/");
         } catch (error) {
             console.error('Errore durante la modifica della nota:', error);
         }
@@ -33,7 +43,7 @@ const Modifica = () => {
             <div className="hero-content text-center">
                 <div className="max-w-md">
                     <h1 className="text-5xl font-bold">Modifica la tua Nota</h1>
-                    <form onSubmit={() => handlerSubmit()}>
+                    <form onSubmit={handlerSubmit}>
                         <div className="max-w-md flex flex-col gap-2 items-center mt-10">
                             <label >Titolo</label>
                             <input
