@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/index.ts\"",
     "start": "node dist/index.js",
-    "build": "npm install && cd ../client && npm install && npm run build"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useEditNoteMutation, useGetNoteByIdQuery } from "../features/featuresApi"
 import { useNavigate, useParams } from "react-router-dom"
+import { TNotes } from "../vite-env";
 
 const Modifica = () => {
     const { id } = useParams()!;
     const navigate = useNavigate();
-    const [editNote] = useEditNoteMutation()
+    const [editNote] = useEditNoteMutation<TNotes>()
     const { data: noteData } = useGetNoteByIdQuery(id!);
 
     const [formData, setFormData] = useState({

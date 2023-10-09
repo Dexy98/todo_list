@@ -6,6 +6,10 @@ const Schema = mongoose.Schema;
 const Notes = new Schema({
   title: String,
   description: String,
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const NotesModel = mongoose.model("Notes", Notes);
