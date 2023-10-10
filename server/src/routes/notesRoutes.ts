@@ -9,57 +9,39 @@ import authenticateUser from "../middleware/auth.js";
 const router = express.Router();
 
 // invia nota al database
-router.post(
-  "/",
-  authenticateUser,
-  async (req: express.Request, res: express.Response) => {
-    const { title, description } = req.body;
-    if (!title) {
-      return res.status(400).json({ error: "Il titolo è obbligatorio" });
+router.post("/", async (req, res) => {
+  const { title, description, userId } = req.body;
+
+  try {
+    const user = await UsersModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "Utente non trovato" });
     }
 
-    try {
-      const user = await UsersModel.findById(req.body.userId);
+    const newNotes = new Notes({
+      title,
+      description: description || "Nessuna descrizione",
+      createdBy: userId,
+    });
 
-      if (!user) {
-        return res.status(404).json({ error: "Utente non trovato" });
-      }
-
-      const newNotes = new Notes({
-        title,
-        description: description || "Nessuna descrizione",
-        createdBy: user._id,
-      });
-
-      const createNotes = await newNotes.save();
-      res.json(createNotes);
-    } catch (error) {
-      res.status(500).json({ error: "Errore durante la creazione della nota" });
-    }
+    const createNotes = await newNotes.save();
+    res.json(createNotes);
+  } catch (error) {
+    res.status(500).json({ error: "Errore durante la creazione della nota" });
   }
-);
+});
 
 //prendi tutte le notes
-router.get(
-  "/",
-  authenticateUser,
-  async (req: express.Request, res: express.Response) => {
-    const userId = req.query.userId;
-
-    try {
-      const user = await UsersModel.findById(userId);
-
-      if (!user) {
-        return res.status(404).json({ error: "Utente non trovato" });
-      }
-
-      const notes = await Notes.find({ createdBy: user._id });
-      res.json(notes);
-    } catch (error) {
-      res.status(500).json({ error: "Errore durante il recupero delle note" });
-    }
+router.get("/", async (req: express.Request, res: express.Response) => {
+  const userId = req.headers["user-id"];
+  if (!userId) {
+    return res.status(400).json({ error: "devi fare il login" });
   }
-);
+
+  const notes = await Notes.find({ createdBy: userId });
+  res.json(notes);
+});
 
 // Recupera una nota basata sull'ID
 router.get("/:ID", async (req: express.Request, res: express.Response) => {

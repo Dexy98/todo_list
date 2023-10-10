@@ -1,10 +1,11 @@
 // Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { TNotes } from "../vite-env";
+//https://notes-pbwe.onrender.com/
 
 export const Notes = createApi({
   reducerPath: "Notes",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://notes-pbwe.onrender.com/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
   tagTypes: ["Notes"],
   endpoints: (builder) => ({
     createNote: builder.mutation<void, TNotes>({
@@ -27,7 +28,6 @@ export const Notes = createApi({
       }),
       invalidatesTags: ["Notes"],
     }),
-
     getNotes: builder.query<TNotes[], void>({
       query: () => `notes`,
       providesTags: ["Notes"],

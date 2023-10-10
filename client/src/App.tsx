@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Player } from '@lottiefiles/react-lottie-player';
 import AddButton from "./assets/AddButton.json"
 import Modifica from "./components/Modifica";
+import Login from "./components/Login";
+import Registrazione from "./components/Registrazione";
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
       <div className="relative" >
         <NavBar />
         <Routes>
+          <Route path="/users/register" element={<Registrazione />} />
+          <Route path="/users/login" element={<Login />} />
           <Route path="/" element={
             <>
               <Hero />

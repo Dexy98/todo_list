@@ -1,6 +1,5 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 const router = express.Router();
 import UsersModel from "../models/Users.js";
 router.post("/register", async (req, res) => {
@@ -28,14 +27,15 @@ router.post("/login", async (req, res) => {
     try {
         // Cerca l'utente nel database
         const user = await UsersModel.findOne({ userName });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        if (!user || !bcrypt.compareSync(password, user.password)) {
             return res.status(401).json({ error: "Credenziali non valide" });
         }
-        // Genero un token JWT
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "1h", // Il token scadrà dopo 1 ora
-        });
-        res.status(200).json({ message: "Login effettuato con successo", token });
+        // // Genero un token JWT
+        // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        //   expiresIn: "1h", // Il token scadrà dopo 1 ora
+        // });
+        res.status(200).json({ message: "Login effettuato con successo", user });
+        localStorage.setItem("user", JSON.stringify(user));
     }
     catch (error) {
         res.status(500).json({ error: "Errore durante il login" });

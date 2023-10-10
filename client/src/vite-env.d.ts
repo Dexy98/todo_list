@@ -6,6 +6,12 @@ export type TNotes = {
   description: string;
 };
 
+export type TUsers = {
+  _id: string;
+  userName: string;
+  password: string;
+};
+
 // <div className="overflow-x-auto">
 //                     <table className="table max-w-lg m-auto">
 //                         {/* head */}

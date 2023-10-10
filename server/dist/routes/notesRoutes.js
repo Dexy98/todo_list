@@ -1,24 +1,20 @@
 import express from "express";
 import Notes from "../models/Notes.js";
 import UsersModel from "../models/Users.js";
-import authenticateUser from "../middleware/auth.js";
 // const basePath = path.resolve();
 const router = express.Router();
 // invia nota al database
-router.post("/", authenticateUser, async (req, res) => {
-    const { title, description } = req.body;
-    if (!title) {
-        return res.status(400).json({ error: "Il titolo è obbligatorio" });
-    }
+router.post("/", async (req, res) => {
+    const { title, description, userId } = req.body;
     try {
-        const user = await UsersModel.findById(req.query.userId);
+        const user = await UsersModel.findById(userId);
         if (!user) {
             return res.status(404).json({ error: "Utente non trovato" });
         }
         const newNotes = new Notes({
             title,
             description: description || "Nessuna descrizione",
-            createdBy: user._id,
+            createdBy: userId,
         });
         const createNotes = await newNotes.save();
         res.json(createNotes);
@@ -28,19 +24,13 @@ router.post("/", authenticateUser, async (req, res) => {
     }
 });
 //prendi tutte le notes
-router.get("/", authenticateUser, async (req, res) => {
-    const userId = req.query.userId;
-    try {
-        const user = await UsersModel.findById(userId);
-        if (!user) {
-            return res.status(404).json({ error: "Utente non trovato" });
-        }
-        const notes = await Notes.find({ createdBy: user._id });
-        res.json(notes);
+router.get("/", async (req, res) => {
+    const userId = req.headers["user-id"];
+    if (!userId) {
+        return res.status(400).json({ error: "devi fare il login" });
     }
-    catch (error) {
-        res.status(500).json({ error: "Errore durante il recupero delle note" });
-    }
+    const notes = await Notes.find({ createdBy: userId });
+    res.json(notes);
 });
 // Recupera una nota basata sull'ID
 router.get("/:ID", async (req, res) => {

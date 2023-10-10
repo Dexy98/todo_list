@@ -15,10 +15,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Usa le rotte delle note
+// rotte delle note
 app.use("/notes", notesRoutes);
 
-// Usa le rotte degli utenti
+// rotte degli utenti
 app.use("/users", usersRoutes);
 
 //connessione al db
