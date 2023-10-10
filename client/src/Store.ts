@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { Notes } from "./features/featuresApi";
 import { Users } from "./features/featuresUsers";
+import { utente } from "./features/sliceUser";
 export const store = configureStore({
   reducer: {
     [Notes.reducerPath]: Notes.reducer,
     [Users.reducerPath]: Users.reducer,
+    [utente.name]: utente.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(Notes.middleware, Users.middleware),

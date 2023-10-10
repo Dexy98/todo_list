@@ -35,7 +35,6 @@ router.post("/login", async (req, res) => {
         //   expiresIn: "1h", // Il token scadrà dopo 1 ora
         // });
         res.status(200).json({ message: "Login effettuato con successo", user });
-        localStorage.setItem("user", JSON.stringify(user));
     }
     catch (error) {
         res.status(500).json({ error: "Errore durante il login" });

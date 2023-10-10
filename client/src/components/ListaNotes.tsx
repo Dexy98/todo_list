@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
-import { useDeleteNotesMutation, useGetNotesQuery } from "../features/featuresApi";
+import { useDeleteNotesMutation } from "../features/featuresApi";
 import { TNotes } from "../vite-env";
 
 import ReactMarkdown from 'react-markdown';
@@ -7,12 +8,44 @@ import ReactMarkdown from 'react-markdown';
 
 
 const ListaNotes = () => {
+    const storedUser = JSON.parse(localStorage.getItem('user') || "null");
+    const userId = storedUser ? storedUser._id : null;
 
-    const { data, isLoading } = useGetNotesQuery();
+    const [notes, setNotes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    console.log(notes);
+
+
+    useEffect(() => {
+        const fetchNotes = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/notes`, {
+                    headers: {
+                        'user-id': userId,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Errore durante il fetch delle note');
+                }
+
+                const data = await response.json();
+                setNotes(data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Errore durante il fetch delle note:', error);
+                setIsLoading(false);
+            }
+        };
+
+        if (userId) {
+            fetchNotes();
+        }
+    }, [userId]);
+
+
+
     const [deleteNote] = useDeleteNotesMutation();
-
-
-
     const handleDeleteNote = async (id: string) => {
         try {
             await deleteNote(id)
@@ -23,7 +56,9 @@ const ListaNotes = () => {
 
     return (
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 items-center p-4">
-            {isLoading ? <div>loading</div> : data?.map((note: TNotes) =>
+            {isLoading ? <div className=" w-full h-full flex justify-center">
+                <span className="loading loading-spinner  w-[30%]"></span>
+            </div> : notes?.map((note: TNotes) =>
                 <div className="collapse collapse-arrow bg-base-200" key={note._id}>
                     <input type="radio" name="my-accordion-1" />
                     <div className="collapse-title text-xl font-medium">

@@ -28,10 +28,14 @@ export const Notes = createApi({
       }),
       invalidatesTags: ["Notes"],
     }),
-    getNotes: builder.query<TNotes[], void>({
-      query: () => `notes`,
-      providesTags: ["Notes"],
-    }),
+    // getNotes: builder.query<TNotes[], any>({
+    //   query: (options) => ({
+    //     url: "notes",
+    //     method: "GET",
+    //     headers: options.headers, // Aggiungi gli headers dalla configurazione
+    //   }),
+    //   providesTags: ["Notes"],
+    // }),
 
     deleteNotes: builder.mutation<void, string>({
       query: (id) => ({
@@ -44,7 +48,7 @@ export const Notes = createApi({
 });
 
 export const {
-  useGetNotesQuery,
+  // useGetNotesQuery,
   useCreateNoteMutation,
   useDeleteNotesMutation,
   useGetNoteByIdQuery,

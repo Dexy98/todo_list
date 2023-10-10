@@ -4,12 +4,19 @@ export type TNotes = {
   _id: string;
   title: string;
   description: string;
+  userId?: string;
 };
 
 export type TUsers = {
   _id: string;
   userName: string;
   password: string;
+};
+
+export type TLoginState = {
+  data: {
+    user: TUsers;
+  };
 };
 
 // <div className="overflow-x-auto">

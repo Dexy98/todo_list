@@ -3,29 +3,42 @@ import { useLoginUserMutation } from "../features/featuresUsers";
 import { useState } from "react";
 import { TUsers } from "../vite-env";
 
-const Login = () => {
+import { useDispatch } from "react-redux";
 
+const Login = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const [formData, setFormData] = useState<TUsers>({
         _id: "",
         userName: '',
         password: ''
     });
-    const [loginUser] = useLoginUserMutation();
+    const [loginUser, { isLoading }] = useLoginUserMutation();
 
+    if (isLoading) {
+        return (
+            <div className=" w-full h-screen flex justify-center">
+                <span className="loading loading-spinner  w-[30%]"></span>
 
-    const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+            </div>
+        )
+    }
+
+    const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        loginUser({
-            _id: "",
+        const response = await loginUser({
             userName: formData.userName,
             password: formData.password
         });
-
-        navigate("/");
+        const user = response.data.user;
+        localStorage.setItem('user', JSON.stringify(user));
+        const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+        dispatch({ type: "LOGIN", payload: storedUser });
+        navigate("/")
     }
+
     return (
-        <div className="hero min-h-screen bg-primary-content">
+        <div className="hero min-h-screen bg-[#100E0E]">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Accedi!</h1>

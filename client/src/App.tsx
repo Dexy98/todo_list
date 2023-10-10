@@ -11,15 +11,18 @@ import Modifica from "./components/Modifica";
 import Login from "./components/Login";
 import Registrazione from "./components/Registrazione";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
-
-
   return (
     <Router>
       <div className="relative" >
         <NavBar />
+        <ToastContainer position="bottom-right" />
         <Routes>
+
           <Route path="/users/register" element={<Registrazione />} />
           <Route path="/users/login" element={<Login />} />
           <Route path="/" element={

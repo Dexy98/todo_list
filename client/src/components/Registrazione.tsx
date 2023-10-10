@@ -1,38 +1,53 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useCreateUserMutation } from "../features/featuresUsers";
 import { useNavigate } from "react-router-dom";
 import { TUsers } from "../vite-env";
 
-
+import { toast } from 'react-toastify';
 const Registrazione = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<TUsers>({
-        _id: "",
+        _id: '',
         userName: '',
         password: ''
     });
-    const [createUser] = useCreateUserMutation();
+    const [createUser, { data, isLoading, error }] = useCreateUserMutation();
+    const ok = data?.message || (error as any)?.data.error
+    const success = () => toast(ok, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+    });
 
 
+    success();
 
+    if (isLoading) {
+        return (
+            <div className=" w-full h-screen flex justify-center">
+                <span className="loading loading-spinner  w-[30%]"></span>
 
-    const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            await createUser({
-                _id: "123456",
-                userName: formData.userName,
-                password: formData.password
-            });
-            navigate("/users/login");
-        } catch (error) {
-            // Gestisci l'errore qui
-            console.error("Errore durante la registrazione:", error);
-        }
+            </div>
+        )
     }
-
+    const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        createUser({
+            userName: formData.userName,
+            password: formData.password
+        });
+        setTimeout(() => {
+            navigate("/users/login");
+        }, 2000);
+    }
     return (
-        <div className="hero min-h-screen bg-primary-content ">
+        <div className="hero min-h-screen bg-[#100E0E] ">
             <div className="hero-content flex-col lg:flex-row-reverse">
 
                 <div className="text-center lg:text-left">

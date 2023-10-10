@@ -8,12 +8,15 @@ const Input = () => {
         title: '',
         description: ''
     });
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+
     const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await createNote({
             _id: "123456",
             title: formData.title,
-            description: formData.description
+            description: formData.description,
+            userId: user._id
         });
         navigate("/");
     }

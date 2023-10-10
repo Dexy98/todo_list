@@ -1,25 +1,22 @@
-// Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { TUsers } from "../vite-env";
 //https://notes-pbwe.onrender.com/
 export const Users = createApi({
   reducerPath: "Users",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
-  tagTypes: ["Users"],
   endpoints: (builder) => ({
-    createUser: builder.mutation<TUsers, TUsers>({
-      query: (value) => ({
+    createUser: builder.mutation({
+      query: (body: { userName: string; password: string }) => ({
         url: "users/register",
         method: "POST",
-        body: value,
+        body,
       }),
     }),
 
-    loginUser: builder.mutation<TUsers, TUsers>({
-      query: (value) => ({
+    loginUser: builder.mutation({
+      query: (body: { userName: string; password: string }) => ({
         url: "users/login",
         method: "POST",
-        body: value,
+        body,
       }),
     }),
   }),
