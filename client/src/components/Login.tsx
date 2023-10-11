@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../features/featuresUsers";
 import { useState } from "react";
 import { TUsers } from "../vite-env";
 
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const navigate = useNavigate()
@@ -12,8 +14,19 @@ const Login = () => {
         userName: '',
         password: ''
     });
-    const [loginUser, { isLoading }] = useLoginUserMutation();
-
+    const [loginUser, { data, isLoading, error }] = useLoginUserMutation();
+    const ok = data?.message || (error as any)?.data.error
+    const success = () => toast(ok, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+    });
+    success();
     if (isLoading) {
         return (
             <div className=" w-full h-screen flex justify-center">
@@ -25,16 +38,25 @@ const Login = () => {
 
     const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const response = await loginUser({
-            userName: formData.userName,
-            password: formData.password
-        });
+        try {
+            const response = await loginUser({
+                userName: formData.userName,
+                password: formData.password
+            });
 
-        if ("data" in response) {
-            const user = response.data.user;
-            localStorage.setItem('user', JSON.stringify(user));
 
-            navigate("/");
+            if ("data" in response) {
+                const user = response.data.user;
+                localStorage.setItem('user', JSON.stringify(user));
+                console.log(response.data.user);
+                success();
+                navigate("/");
+            }
+
+        } catch (error) {
+            // Gestione dell'errore
+            success();
+            console.error('Errore durante la registrazione:', error);
         }
     }
 

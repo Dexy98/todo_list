@@ -30,6 +30,8 @@ function App() {
   };
 
   const isAuthenticated = !!localStorage.getItem("user");
+  console.log(isAuthenticated);
+
 
   return (
     <Router>
