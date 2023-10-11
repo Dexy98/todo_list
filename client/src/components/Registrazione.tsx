@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { TUsers } from "../vite-env";
 
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 const Registrazione = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<TUsers>({
@@ -36,15 +37,21 @@ const Registrazione = () => {
             </div>
         )
     }
-    const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createUser({
-            userName: formData.userName,
-            password: formData.password
-        });
-        setTimeout(() => {
-            navigate("/users/login");
-        }, 2000);
+        try {
+            const response = await createUser({
+                userName: formData.userName,
+                password: formData.password
+            });
+            if (response.data) {
+                success();
+                navigate("/users/login");
+            }
+        } catch (error) {
+            console.error('Errore durante la registrazione:', error);
+
+        }
     }
     return (
         <div className="hero min-h-screen bg-[#100E0E] ">
@@ -74,7 +81,7 @@ const Registrazione = () => {
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                 type="password" placeholder="password" className="input input-bordered" required />
                             <label className="label">
-                                <a href="/users/login" className="label-text-alt link link-hover">Già registrato?</a>
+                                <Link to="/users/login" className="label-text-alt link link-hover">Già registrato?</Link>
                             </label>
                         </div>
                         <div className="form-control mt-6">

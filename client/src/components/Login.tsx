@@ -4,10 +4,11 @@ import { useState } from "react";
 import { TUsers } from "../vite-env";
 
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const navigate = useNavigate();
     const [formData, setFormData] = useState<TUsers>({
         _id: "",
         userName: '',
@@ -30,12 +31,17 @@ const Login = () => {
             userName: formData.userName,
             password: formData.password
         });
-        const user = response.data.user;
-        localStorage.setItem('user', JSON.stringify(user));
-        const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-        dispatch({ type: "LOGIN", payload: storedUser });
-        navigate("/")
+
+        if (response.data) {
+            const user = response.data.user;
+            localStorage.setItem('user', JSON.stringify(user));
+            const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+            dispatch({ type: "LOGIN", payload: storedUser });
+
+            navigate("/");
+        }
     }
+
 
     return (
         <div className="hero min-h-screen bg-[#100E0E]">
@@ -62,7 +68,7 @@ const Login = () => {
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                 type="password" placeholder="password" className="input input-bordered" required />
                             <label className="label">
-                                <a href="/users/register" className="label-text-alt link link-hover">Non sei registrato?</a>
+                                <Link to="/users/register" className="label-text-alt link link-hover">Non sei registrato?</Link>
                             </label>
                         </div>
                         <div className="form-control mt-6">

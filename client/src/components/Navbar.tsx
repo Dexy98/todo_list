@@ -1,9 +1,7 @@
 import note from "../assets/note.png";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const NavBar = () => {
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const forestTheme = () => {
         document.documentElement.setAttribute("data-theme", "forest");
@@ -26,7 +24,7 @@ const NavBar = () => {
     //cancello l'utente dal localstorage
     const handleLogout = () => {
         localStorage.removeItem("user");
-        navigate("/users/register")
+        navigate("/users/register");
     }
 
 
