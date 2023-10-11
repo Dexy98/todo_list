@@ -3,12 +3,10 @@ import { useLoginUserMutation } from "../features/featuresUsers";
 import { useState } from "react";
 import { TUsers } from "../vite-env";
 
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const [formData, setFormData] = useState<TUsers>({
         _id: "",
         userName: '',
@@ -32,11 +30,9 @@ const Login = () => {
             password: formData.password
         });
 
-        if (response.data) {
+        if ("data" in response) {
             const user = response.data.user;
             localStorage.setItem('user', JSON.stringify(user));
-            const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-            dispatch({ type: "LOGIN", payload: storedUser });
 
             navigate("/");
         }

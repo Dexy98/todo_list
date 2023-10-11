@@ -40,19 +40,24 @@ const Registrazione = () => {
     const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await createUser({
+            const response = await createUser({
                 userName: formData.userName,
                 password: formData.password
             });
-            if (data.message) {
+
+
+            if ("data" in response) {
                 success();
                 navigate("/users/login");
             }
-        } catch (error) {
-            console.error('Errore durante la registrazione:', error);
 
+        } catch (error) {
+            // Gestione dell'errore
+            success();
+            console.error('Errore durante la registrazione:', error);
         }
     }
+
     return (
         <div className="hero min-h-screen bg-[#100E0E] ">
             <div className="hero-content flex-col lg:flex-row-reverse">

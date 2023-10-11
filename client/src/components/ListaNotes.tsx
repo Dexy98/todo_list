@@ -5,7 +5,7 @@ import { TNotes } from "../vite-env";
 
 import ReactMarkdown from 'react-markdown';
 
-
+//https://notes-pbwe.onrender.com/
 
 const ListaNotes = () => {
     const storedUser = JSON.parse(localStorage.getItem('user') || "null");
@@ -13,13 +13,13 @@ const ListaNotes = () => {
 
     const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    console.log(notes);
 
 
     useEffect(() => {
         const fetchNotes = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/notes`, {
+                const response = await fetch(`https://notes-pbwe.onrender.com/notes`, {
+                    method: 'GET',
                     headers: {
                         'user-id': userId,
                     },
@@ -41,7 +41,7 @@ const ListaNotes = () => {
         if (userId) {
             fetchNotes();
         }
-    }, [userId]);
+    }, [userId, notes]);
 
 
 
