@@ -1,6 +1,9 @@
 import note from "../assets/note.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
+
+    const navigate = useNavigate()
 
     const forestTheme = () => {
         document.documentElement.setAttribute("data-theme", "forest");
@@ -20,6 +23,12 @@ const NavBar = () => {
         }
     }
 
+    //cancello l'utente dal localstorage
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        navigate("/users/register")
+    }
+
 
     return (
         <div className="navbar bg-base-100 flex justify-between" >
@@ -28,6 +37,9 @@ const NavBar = () => {
                     <img src={note} alt="Notes" className=" w-12" />
                 </Link>
             </div>
+            <button onClick={handleLogout} className=" btn btn-ghost">
+                Esci
+            </button>
             <button onChange={toggleTheme}>
 
                 <label className="swap swap-rotate" >
