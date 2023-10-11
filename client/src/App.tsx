@@ -26,7 +26,7 @@ function App() {
       return children;
     }
 
-    return <Navigate to="/users/register" />;
+    return <Navigate to="/users/login" />;
   };
 
   const isAuthenticated = !!localStorage.getItem("user");

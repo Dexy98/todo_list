@@ -59,7 +59,7 @@ const Registrazione = () => {
     }
 
     return (
-        <div className="hero min-h-screen bg-[#100E0E] ">
+        <div className="hero min-h-screen bg-base-200 ">
             <div className="hero-content flex-col lg:flex-row-reverse">
 
                 <div className="text-center lg:text-left">

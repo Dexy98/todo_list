@@ -24,7 +24,7 @@ const NavBar = () => {
     //cancello l'utente dal localstorage
     const handleLogout = () => {
         localStorage.removeItem("user");
-        navigate("/users/register");
+        navigate("/users/login");
     }
 
 

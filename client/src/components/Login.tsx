@@ -48,7 +48,6 @@ const Login = () => {
             if ("data" in response) {
                 const user = response.data.user;
                 localStorage.setItem('user', JSON.stringify(user));
-                console.log(response.data.user);
                 success();
                 navigate("/");
             }
@@ -62,7 +61,7 @@ const Login = () => {
 
 
     return (
-        <div className="hero min-h-screen bg-[#100E0E]">
+        <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Accedi!</h1>
