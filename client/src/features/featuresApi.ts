@@ -5,7 +5,7 @@ import { TNotes } from "../vite-env";
 
 export const Notes = createApi({
   reducerPath: "Notes",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://notes-pbwe.onrender.com/" }),
   tagTypes: ["Notes"],
   endpoints: (builder) => ({
     createNote: builder.mutation<void, TNotes>({

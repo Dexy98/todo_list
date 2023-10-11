@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 //https://notes-pbwe.onrender.com/
 export const Users = createApi({
   reducerPath: "Users",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://notes-pbwe.onrender.com/" }),
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: (body: { userName: string; password: string }) => ({
