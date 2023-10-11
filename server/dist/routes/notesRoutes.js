@@ -1,7 +1,6 @@
 import express from "express";
 import Notes from "../models/Notes.js";
 import UsersModel from "../models/Users.js";
-// const basePath = path.resolve();
 const router = express.Router();
 // invia nota al database
 router.post("/", async (req, res) => {

@@ -1,10 +1,7 @@
 import express from "express";
 import Notes from "../models/Notes.js";
 
-import path from "path";
 import UsersModel from "../models/Users.js";
-import authenticateUser from "../middleware/auth.js";
-// const basePath = path.resolve();
 
 const router = express.Router();
 
