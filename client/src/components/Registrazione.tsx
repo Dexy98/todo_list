@@ -40,11 +40,11 @@ const Registrazione = () => {
     const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await createUser({
+            await createUser({
                 userName: formData.userName,
                 password: formData.password
             });
-            if (response.data) {
+            if (data.message) {
                 success();
                 navigate("/users/login");
             }

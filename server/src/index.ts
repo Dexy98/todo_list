@@ -4,8 +4,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import notesRoutes from "./routes/notesRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
-//for deploy
-import path from "path";
 
 dotenv.config();
 
