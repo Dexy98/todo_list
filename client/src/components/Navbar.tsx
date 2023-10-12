@@ -13,11 +13,10 @@ const NavBar = () => {
     }
     const toggleTheme = () => {
         const savedTheme = localStorage.getItem("theme");
-
-        if (savedTheme === "light") {
-            forestTheme();
-        } else {
+        if (savedTheme === "forest") {
             lightTheme();
+        } else {
+            forestTheme();
         }
     }
 
@@ -38,7 +37,7 @@ const NavBar = () => {
             <button onClick={handleLogout} className=" btn btn-ghost">
                 Esci
             </button>
-            <button onChange={toggleTheme}>
+            <button onChange={toggleTheme} className=" btn btn-ghost">
 
                 <label className="swap swap-rotate" >
                     {/* this hidden checkbox controls the state */}
