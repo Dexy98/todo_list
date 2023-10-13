@@ -22,7 +22,6 @@ interface ProtectedRouteProps {
 function App() {
   const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, isAuthenticated }) => {
     if (isAuthenticated) {
-      <Navigate to="/" />
       return children;
     }
 
