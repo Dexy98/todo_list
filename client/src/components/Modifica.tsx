@@ -60,7 +60,7 @@ const Modifica = () => {
                             <textarea
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                className="textarea textarea-bordered max-sm:textarea-sm w-full" placeholder="Descrizione...">
+                                className="textarea textarea-bordered max-sm:textarea-sm w-full min-h-[7rem]" placeholder="Descrizione...">
 
                             </textarea>
                             <button type="submit" className="btn btn-outline btn-primary max-sm:btn-sm transition-all">Modifica

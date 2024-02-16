@@ -14,41 +14,40 @@ const ListaNotes = () => {
     const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-
     useEffect(() => {
-        const fetchNotes = async () => {
-            try {
-                const response = await fetch(`https://notes-pbwe.onrender.com/notes`, {
-                    method: 'GET',
-                    headers: {
-                        'user-id': userId,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Errore durante il fetch delle note');
-                }
-
-                const data = await response.json();
-                setNotes(data);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Errore durante il fetch delle note:', error);
-                setIsLoading(false);
-            }
-        };
 
         if (userId) {
             fetchNotes();
         }
-    }, [userId, notes]);
+    }, [userId]);
+    
+    const fetchNotes = async () => {
+        try {
+            const response = await fetch(`https://notes-pbwe.onrender.com/notes`, {
+                method: 'GET',
+                headers: {
+                    'user-id': userId,
+                },
+            });
 
+            if (!response.ok) {
+                throw new Error('Errore durante il fetch delle note');
+            }
 
+            const data = await response.json();
+            setNotes(data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Errore durante il fetch delle note:', error);
+            setIsLoading(false);
+        }
+    };
 
     const [deleteNote] = useDeleteNotesMutation();
     const handleDeleteNote = async (id: string) => {
         try {
-            await deleteNote(id)
+            await deleteNote(id);
+            fetchNotes();
         } catch (error) {
             console.error('Errore durante l\'eliminazione della nota:', error);
         }
